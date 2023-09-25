@@ -1,4 +1,6 @@
-import RegistrationHelper.registerListener
+package me.zodd
+
+import me.zodd.RegistrationHelper.registerListener
 import org.spongepowered.api.Engine
 import org.spongepowered.api.entity.EntityTypes
 import org.spongepowered.api.entity.living.player.Player

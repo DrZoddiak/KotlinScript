@@ -1,3 +1,5 @@
+package me.zodd
+
 import java.io.File
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics

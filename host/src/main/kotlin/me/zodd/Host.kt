@@ -1,3 +1,5 @@
+package me.zodd
+
 import com.google.inject.Inject
 import org.apache.logging.log4j.Logger
 import org.spongepowered.api.config.DefaultConfig
@@ -5,8 +7,6 @@ import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.lifecycle.*
 import org.spongepowered.configurate.CommentedConfigurationNode
 import org.spongepowered.configurate.ConfigurateException
-import org.spongepowered.configurate.hocon.HoconConfigurationLoader
-import org.spongepowered.configurate.kotlin.objectMapperFactory
 import org.spongepowered.configurate.reference.ConfigurationReference
 import org.spongepowered.plugin.PluginContainer
 import org.spongepowered.plugin.builtin.jvm.Plugin

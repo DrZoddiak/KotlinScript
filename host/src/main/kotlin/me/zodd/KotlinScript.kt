@@ -1,3 +1,6 @@
+package me.zodd
+
+import PluginScript
 import io.github.classgraph.ClassGraphClassLoader
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics
@@ -40,6 +43,7 @@ internal data class KotlinScript(
         "org.apache.logging.log4j.Logger",
         //Kyori
         "net.kyori.adventure.text.*",
+        "me.zodd.*"
     )
 
     private fun mergeImports(): List<String> {
@@ -59,7 +63,7 @@ internal data class KotlinScript(
     private val classloader: ClassLoader = ClassGraphClassLoader.getSystemClassLoader()
 
     private val configuration = createJvmCompilationConfigurationFromTemplate<PluginScript> {
-        if (ScriptPlugin.config.extraLogging) {
+        if (Host.config.extraLogging) {
             Logger.info(
                 """
             #######################CLASSPATH#######################

@@ -1,3 +1,5 @@
+package me.zodd
+
 import io.leangen.geantyref.TypeToken
 import org.spongepowered.api.Sponge
 import org.spongepowered.api.event.Event

@@ -1,3 +1,5 @@
+package me.zodd
+
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 import org.spongepowered.configurate.objectmapping.meta.Comment
 

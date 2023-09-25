@@ -1,3 +1,5 @@
+package me.zodd
+
 import org.apache.logging.log4j.Logger
 import org.spongepowered.api.Server
 import org.spongepowered.api.Sponge
