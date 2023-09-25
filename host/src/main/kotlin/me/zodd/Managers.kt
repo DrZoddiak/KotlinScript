@@ -1,5 +1,7 @@
 package me.zodd
 
+import net.kyori.adventure.identity.Identity
+import net.kyori.adventure.text.Component
 import org.apache.logging.log4j.Logger
 import org.spongepowered.api.Server
 import org.spongepowered.api.Sponge
@@ -9,13 +11,15 @@ import org.spongepowered.api.plugin.PluginManager
 import org.spongepowered.api.scheduler.Scheduler
 import org.spongepowered.api.service.ServiceProvider
 
-val Server: Server get() = Sponge.server()
-val ScriptPlugin: Host.Companion get() = Host
-val PluginManager: PluginManager get() = Sponge.pluginManager()
-val CommandManager: CommandManager get() = Sponge.server().commandManager()
-val EventManager: EventManager get() = Sponge.eventManager()
-val ServiceServerManager: ServiceProvider.ServerScoped get() = Sponge.server().serviceProvider()
-val ServiceGameManager: ServiceProvider.GameScoped get() = Sponge.serviceProvider()
-val Scheduler: Scheduler get() = Sponge.server().scheduler()
-val AsyncScheduler: Scheduler get() = Sponge.asyncScheduler()
-val Logger: Logger get() = Host.logger
+inline val Server: Server get() = Sponge.server()
+inline val ScriptPlugin: Host.Companion get() = Host
+inline val PluginManager: PluginManager get() = Sponge.pluginManager()
+inline val CommandManager: CommandManager get() = Sponge.server().commandManager()
+inline val EventManager: EventManager get() = Sponge.eventManager()
+inline val ServiceServerManager: ServiceProvider.ServerScoped get() = Sponge.server().serviceProvider()
+inline val ServiceGameManager: ServiceProvider.GameScoped get() = Sponge.serviceProvider()
+inline val Scheduler: Scheduler get() = Sponge.server().scheduler()
+inline val AsyncScheduler: Scheduler get() = Sponge.asyncScheduler()
+inline val Logger: Logger get() = Host.logger
+inline val ScriptCommandManager: me.zodd.dsl.command.CommandManager get() = me.zodd.dsl.command.CommandManager()
+
