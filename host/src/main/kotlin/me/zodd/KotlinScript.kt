@@ -1,6 +1,5 @@
 package me.zodd
 
-import PluginScript
 import io.github.classgraph.ClassGraphClassLoader
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics

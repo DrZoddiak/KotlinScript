@@ -1,3 +1,5 @@
+package me.zodd
+
 import kotlin.script.experimental.annotations.KotlinScript
 
 @KotlinScript(
