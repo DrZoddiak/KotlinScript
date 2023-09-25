@@ -1,6 +1,5 @@
 package me.zodd
 
-import io.github.classgraph.ClassGraphClassLoader
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.api.SourceCode
@@ -59,7 +58,7 @@ internal data class KotlinScript(
         """.toScriptSource()
     }
 
-    private val classloader: ClassLoader = ClassGraphClassLoader.getSystemClassLoader()
+    private val classloader: ClassLoader = ClassLoader.getSystemClassLoader()
 
     private val configuration = createJvmCompilationConfigurationFromTemplate<PluginScript> {
         if (Host.config.extraLogging) {
