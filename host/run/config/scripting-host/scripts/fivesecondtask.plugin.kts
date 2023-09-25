@@ -1,3 +1,4 @@
+//Scripts can import
 import java.time.Duration
 
 onServerStarted {
