@@ -1,3 +1,8 @@
+import me.zodd.*
+import me.zodd.onPlayerJoin
+import net.kyori.adventure.text.Component
+import org.spongepowered.api.data.Keys
+
 onPlayerJoin {
     Logger.info("Player joined the server")
     //Scripts can use methods available fron the event

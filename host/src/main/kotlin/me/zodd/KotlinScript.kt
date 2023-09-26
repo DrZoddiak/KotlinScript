@@ -13,41 +13,6 @@ import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromT
 
 internal data class KotlinScript(val script: String) {
     private val classloader: ClassLoader = ClassLoader.getSystemClassLoader()
-    private val configuration = createJvmCompilationConfigurationFromTemplate<PluginScript> {
-        if (Host.config.extraLogging) {
-            Logger.info(
-                """
-            #######################CLASSPATH#######################
-            ${classloader.definedPackages.joinToString("\n") { it.name }}
-            ######################################################
-            """.trimIndent()
-            )
-        }
-        compilerOptions("-jvm-target", "17")
-        defaultImports(*mergeImports().toTypedArray())
-        jvm {
-            dependenciesFromClassloader(
-                "host",
-                classLoader = classloader,
-                wholeClasspath = true
-            )
-        }
-    }
-
-    fun eval(): ResultWithDiagnostics<EvaluationResult> {
-        return BasicJvmScriptingHost().eval(compile(), configuration, null)
-    }
-
-    private fun compile(): SourceCode {
-        return script.toScriptSource()
-    }
-
-    private fun mergeImports(): List<String> {
-        val imports = mutableListOf<String>()
-        imports.addAll(defaultImports)
-        imports.addAll(spongeImports)
-        return imports
-    }
 
     private val spongeImports = listOf(
         "",
@@ -80,4 +45,42 @@ internal data class KotlinScript(val script: String) {
         "net.kyori.adventure.text.*",
         "me.zodd.*"
     )
+
+    private fun mergeImports(): List<String> {
+        val imports = mutableListOf<String>()
+        imports.addAll(defaultImports)
+        imports.addAll(spongeImports)
+        return imports
+    }
+
+    private val configuration = createJvmCompilationConfigurationFromTemplate<PluginScript> {
+        if (Host.config.extraLogging) {
+            Logger.info(
+                """
+            #######################CLASSPATH#######################
+            ${classloader.definedPackages.joinToString("\n") { it.name }}
+            ######################################################
+            """.trimIndent()
+            )
+        }
+
+        compilerOptions("-jvm-target", "17")
+        defaultImports(*mergeImports().toTypedArray())
+        jvm {
+            dependenciesFromClassloader(
+                "host",
+                classLoader = classloader,
+                wholeClasspath = true
+            )
+        }
+    }
+
+    fun eval(): ResultWithDiagnostics<EvaluationResult> {
+        return BasicJvmScriptingHost().eval(compile(), configuration, null)
+    }
+
+    private fun compile(): SourceCode {
+        return script.toScriptSource()
+    }
+
 }
