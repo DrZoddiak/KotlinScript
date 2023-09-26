@@ -1,4 +1,6 @@
 //Scripts can import
+import me.zodd.*
+import org.spongepowered.api.scheduler.Task
 import java.time.Duration
 
 onServerStarted {

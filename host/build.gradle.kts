@@ -35,13 +35,13 @@ dependencies {
 
     shadow(kotlin("reflect"))
     shadow(project(":script-definition"))
+    kotlinScriptDef(project(":script-definition"))
     shadow(kotlin("scripting-jvm-host"))
     shadow(kotlin("scripting-jvm"))
+    shadow(kotlin("script-runtime"))
 
     //Allows scripts to build certain bits of API that requires Adventure
     shadow("net.kyori:adventure-api:4.14.0")
-
-    implementation("io.github.classgraph:classgraph:4.8.162")
 }
 
 tasks.jar.get().enabled = false

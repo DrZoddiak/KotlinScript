@@ -1,9 +1,11 @@
 package me.zodd
 
-import kotlin.script.experimental.api.EvaluationResult
-import kotlin.script.experimental.api.ResultWithDiagnostics
-import kotlin.script.experimental.api.SourceCode
+import java.io.File
+import java.net.JarURLConnection
+import java.net.URL
+import kotlin.script.experimental.api.*
 import kotlin.script.experimental.host.toScriptSource
+import kotlin.script.experimental.jvm.dependenciesFromClassContext
 import kotlin.script.experimental.jvm.dependenciesFromClassloader
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
@@ -48,14 +50,11 @@ internal data class KotlinScript(
         val imports = mutableListOf<String>()
         imports.addAll(defaultImports)
         imports.addAll(spongeImports)
-        return imports.map { "import $it" }
+        return imports
     }
 
     private fun compile(): SourceCode {
-        return """
-            ${mergeImports().asString()}
-            $script
-        """.toScriptSource()
+        return script.toScriptSource()
     }
 
     private val classloader: ClassLoader = ClassLoader.getSystemClassLoader()
@@ -70,6 +69,8 @@ internal data class KotlinScript(
             """.trimIndent()
             )
         }
+        compilerOptions("-jvm-target", "17")
+        defaultImports(*mergeImports().toTypedArray())
         jvm {
             dependenciesFromClassloader(
                 "host",
@@ -81,9 +82,5 @@ internal data class KotlinScript(
 
     fun eval(): ResultWithDiagnostics<EvaluationResult> {
         return BasicJvmScriptingHost().eval(compile(), configuration, null)
-    }
-
-    private fun List<*>.asString(): String {
-        return if (isEmpty()) "// empty" else joinToString("\n")
     }
 }
