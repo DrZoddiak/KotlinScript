@@ -1,5 +1,3 @@
-import org.spongepowered.plugin.metadata.model.PluginDependency
-
 plugins {
     id("common")
     id("com.github.johnrengelman.shadow") version "7.1.2"

@@ -6,7 +6,11 @@ import org.spongepowered.api.entity.EntityTypes
 import org.spongepowered.api.entity.living.player.Player
 import org.spongepowered.api.event.block.ChangeBlockEvent
 import org.spongepowered.api.event.block.InteractBlockEvent
-import org.spongepowered.api.event.entity.*
+import org.spongepowered.api.event.entity.DamageEntityEvent
+import org.spongepowered.api.event.entity.DestructEntityEvent
+import org.spongepowered.api.event.entity.InteractEntityEvent
+import org.spongepowered.api.event.entity.MoveEntityEvent
+import org.spongepowered.api.event.entity.SpawnEntityEvent
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent
 import org.spongepowered.api.event.lifecycle.StartingEngineEvent
 import org.spongepowered.api.event.lifecycle.StoppedGameEvent

@@ -8,6 +8,7 @@ internal data class LogInfo(
 ) {
     private val fileExt = ".plugin.kts"
     private val id = scriptName.removeSuffix(fileExt).uppercase()
+    //Known messages deemed of little value to the End User
     private val listOfKnownMessages = listOf(
         "Using JVM IR backend",
         "Using new faster version of JAR FS: it should make your build faster, but the new implementation is experimental",
@@ -18,7 +19,6 @@ internal data class LogInfo(
         if (string.startsWith("Loading modules:")) {
             return null
         }
-        //Known messages deemed of little value to the End User
         listOfKnownMessages.forEach {
             if (string.contains(it)) return null
         }

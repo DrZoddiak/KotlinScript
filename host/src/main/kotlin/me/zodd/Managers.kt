@@ -1,7 +1,5 @@
 package me.zodd
 
-import net.kyori.adventure.identity.Identity
-import net.kyori.adventure.text.Component
 import org.apache.logging.log4j.Logger
 import org.spongepowered.api.Server
 import org.spongepowered.api.Sponge

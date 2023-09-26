@@ -4,7 +4,8 @@ import com.google.inject.Inject
 import org.apache.logging.log4j.Logger
 import org.spongepowered.api.config.DefaultConfig
 import org.spongepowered.api.event.Listener
-import org.spongepowered.api.event.lifecycle.*
+import org.spongepowered.api.event.lifecycle.ConstructPluginEvent
+import org.spongepowered.api.event.lifecycle.RefreshGameEvent
 import org.spongepowered.configurate.CommentedConfigurationNode
 import org.spongepowered.configurate.ConfigurateException
 import org.spongepowered.configurate.reference.ConfigurationReference
@@ -38,12 +39,17 @@ class Host @Inject internal constructor(
 
     @Listener
     fun onConstruct(event: ConstructPluginEvent) {
-        Logger.info("Loading Kotlin Scripting Host...")
+        logger.info("Loading Kotlin Scripting Host...")
 
         config = loadConfig()
 
         KotlinScriptLoader.loadScripts()
-        Logger.info("Finished loading scripts...")
+        logger.info("Finished loading scripts...")
+    }
+
+    @Listener
+    fun onGameRefresh(event: RefreshGameEvent) {
+        //Should handle script reloads here
     }
 }
 

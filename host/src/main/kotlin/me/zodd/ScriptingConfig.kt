@@ -8,5 +8,5 @@ data class ScriptingConfig(
     @field:Comment("Set true for a placebo")
     val placeholderSetting: Boolean = false,
     @field:Comment("Enables debug logging")
-    val extraLogging : Boolean = false,
+    val extraLogging: Boolean = false,
 )
