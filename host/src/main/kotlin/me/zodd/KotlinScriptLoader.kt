@@ -22,7 +22,7 @@ internal object KotlinScriptLoader {
         onFailure {
             LogInfo(name, it.reports).printLog()
         }.onSuccess {
-            if (ScriptPlugin.config.extraLogging) {
+            if (Host.config.extraLogging) {
                 Logger.info("Script: $name successfully loaded!")
             }
             asSuccess()

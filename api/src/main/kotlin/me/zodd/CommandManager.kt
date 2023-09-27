@@ -1,4 +1,4 @@
-package me.zodd.dsl.command
+package me.zodd
 
 import me.zodd.annotations.ScriptDsl
 import net.kyori.adventure.text.Component

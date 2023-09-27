@@ -15,20 +15,23 @@ import org.spongepowered.plugin.builtin.jvm.Plugin
 @Plugin("scripting-host")
 class Host @Inject internal constructor(
     container: PluginContainer,
-    logger: Logger,
+    private val logger: Logger,
     @DefaultConfig(sharedRoot = false)
     private val reference: ConfigurationReference<CommentedConfigurationNode>,
 ) {
 
     companion object {
-        lateinit var container: PluginContainer
         lateinit var logger: Logger
+        lateinit var plugin: PluginContainer
         lateinit var config: ScriptingConfig
     }
 
     init {
-        Companion.container = container
+        plugin = container
         Companion.logger = logger
+
+        //Plugin references
+        API(container, logger)
     }
 
     private fun loadConfig(): ScriptingConfig {

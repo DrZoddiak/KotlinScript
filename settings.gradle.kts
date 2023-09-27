@@ -12,3 +12,5 @@ plugins {
 rootProject.name = "KotlinScript"
 include("script-definition")
 include("host")
+include("api")
+include("script-runtime")

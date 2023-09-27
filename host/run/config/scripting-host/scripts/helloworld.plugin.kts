@@ -1,8 +1,7 @@
-import me.zodd.ScriptCommandManager
-import me.zodd.ScriptPlugin
+import me.zodd.*
 
 //Scripts automatically execute during plugin construction
-ScriptPlugin.logger.info("Hello World!")
+Logger.info("Hello World!")
 
 ScriptCommandManager {
     command("foo") {

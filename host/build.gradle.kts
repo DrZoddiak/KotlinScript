@@ -1,15 +1,12 @@
+import org.spongepowered.plugin.metadata.model.PluginDependency
+
 plugins {
     id("common")
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("org.spongepowered.gradle.plugin") version "2.2.0"
 }
 
-group = "me.zodd"
-version = "1.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
+version = "0.1.0"
 
 sponge {
     apiVersion("8.2.0-SNAPSHOT")
@@ -22,24 +19,23 @@ sponge {
         displayName("scripting-host")
         entrypoint("me.zodd.Host")
         description("A host plugin for running Kotlin Scripts")
+        dependency("kruntime") {
+            loadOrder(PluginDependency.LoadOrder.AFTER)
+            version("0.4.0")
+            optional(false)
+        }
     }
 }
 
 dependencies {
-
     implementation("org.spongepowered:configurate-extra-kotlin:4.1.2") {
         isTransitive = false
     }
-
     shadow(kotlin("reflect"))
     shadow(project(":script-definition"))
-    kotlinScriptDef(project(":script-definition"))
     shadow(kotlin("scripting-jvm-host"))
-    shadow(kotlin("scripting-jvm"))
-    shadow(kotlin("script-runtime"))
-
-    //Allows scripts to build certain bits of API that requires Adventure
-    shadow("net.kyori:adventure-api:4.14.0")
+    implementation(project(":api"))
+    api("net.kyori:adventure-api:4.14.0")
 }
 
 tasks.jar.get().enabled = false
@@ -48,11 +44,10 @@ tasks.shadowJar {
     archiveClassifier.set("")
     configurations.add(project.configurations.shadow.get())
     listOf(
-        "io.github.classgraph", "javaslang", "nonapi.io.github.classgraph",
-        "org.spongepowered.configurate.kotlin", "org.jetbrains.annotations",
-        "org.jetbrains.concurrency", "org.jetbrains.jps", "org.jetbrains.org",
-        "org.intellij", "gnu.trove", "com.sun.jna", "messages",
+        "org.spongepowered.configurate.kotlin", "org.jetbrains.org.objectweb.asm",
+        "org.jetbrains.jps", "javaslang", "gnu.trove", "com.sun.jna", "messages", "misc"
     ).forEach { relocate(it, "me.zodd.shaded.$it") }
+    mergeServiceFiles()
 }
 
 java {

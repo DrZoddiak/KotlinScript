@@ -1,7 +1,6 @@
-import me.zodd.ScriptPlugin
-import me.zodd.onServerStarted
+import me.zodd.*
 
 onServerStarted {
-    ScriptPlugin.logger.info("Server Started!")
+    Logger.info("Server Started!")
 }
 

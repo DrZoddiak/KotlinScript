@@ -43,7 +43,18 @@ internal data class KotlinScript(val script: String) {
         "org.apache.logging.log4j.Logger",
         //Kyori
         "net.kyori.adventure.text.*",
-        "me.zodd.*"
+        "me.zodd.*",
+        "me.zodd.Manager.Server",
+        "me.zodd.Manager.Plugin",
+        "me.zodd.Manager.PluginManager",
+        "me.zodd.Manager.CommandManager",
+        "me.zodd.Manager.EventManager",
+        "me.zodd.Manager.ServerServiceManager",
+        "me.zodd.Manager.GameServiceManager",
+        "me.zodd.Manager.Scheduler",
+        "me.zodd.Manager.AsyncScheduler",
+        "me.zodd.Manager.Logger",
+        "me.zodd.Manager.ScriptCommandManager",
     )
 
     private fun mergeImports(): List<String> {

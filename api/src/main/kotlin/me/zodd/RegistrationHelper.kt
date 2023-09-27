@@ -1,7 +1,6 @@
 package me.zodd
 
 import io.leangen.geantyref.TypeToken
-import me.zodd.dsl.command.DslCommand
 import org.spongepowered.api.Sponge
 import org.spongepowered.api.command.Command
 import org.spongepowered.api.event.Event
@@ -17,7 +16,7 @@ object RegistrationHelper {
             EventListenerRegistration.builder(eventClass)
                 .order(Order.DEFAULT)
                 .listener(executor::invoke)
-                .plugin(Host.container)
+                .plugin(API.container)
                 .build()
         )
     }

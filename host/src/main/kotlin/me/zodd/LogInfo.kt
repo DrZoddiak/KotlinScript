@@ -36,7 +36,7 @@ internal data class LogInfo(
 
     fun printLog() {
         val logTitle = "[${id}]"
-        Logger.info(
+        Host.logger.info(
             "\n" + """
             ################$logTitle###############
             ${generateReport()}
