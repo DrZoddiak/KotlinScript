@@ -12,8 +12,6 @@ import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 
 internal data class KotlinScript(val script: String) {
-    private val classloader: ClassLoader = ClassLoader.getSystemClassLoader()
-
     private val spongeImports = listOf(
         "",
         "block",
@@ -54,16 +52,6 @@ internal data class KotlinScript(val script: String) {
     }
 
     private val configuration = createJvmCompilationConfigurationFromTemplate<PluginScript> {
-        if (Host.config.extraLogging) {
-            Logger.info(
-                """
-            #######################CLASSPATH#######################
-            ${classloader.definedPackages.joinToString("\n") { it.name }}
-            ######################################################
-            """.trimIndent()
-            )
-        }
-
         compilerOptions("-jvm-target", "17")
         defaultImports(*mergeImports().toTypedArray())
         jvm {

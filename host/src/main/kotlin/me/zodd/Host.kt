@@ -37,7 +37,7 @@ class Host @Inject internal constructor(
     private fun loadConfig(): ScriptingConfig {
         val ref = reference.referenceTo(ScriptingConfig::class.java)
         reference.save()
-        return ref.get() ?: throw ConfigurateException("Whoops!")
+        return ref.get() ?: throw ConfigurateException("ScriptConfig failed to load!")
     }
 
     @Listener
@@ -52,7 +52,8 @@ class Host @Inject internal constructor(
 
     @Listener
     fun onGameRefresh(event: RefreshGameEvent) {
-        //Should handle script reloads here
+        //todo: handle script reloads here
+        config = loadConfig()
     }
 }
 

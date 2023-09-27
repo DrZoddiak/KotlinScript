@@ -13,7 +13,7 @@ internal object KotlinScriptLoader {
 
     fun loadScripts() {
         scriptFileDir.mkdirs()
-        scriptFileDir.listFiles()?.map { file ->
+        scriptFileDir.listFiles()?.forEach { file ->
             Logger.info("Loading script : ${file.name}...")
             KotlinScript(file.readText()).eval().logResult(file.name)
         }

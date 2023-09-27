@@ -6,7 +6,7 @@ plugins {
     id("org.spongepowered.gradle.plugin") version "2.2.0"
 }
 
-version = "0.1.5"
+version = "0.1.6"
 
 sponge {
     apiVersion("8.2.0-SNAPSHOT")
