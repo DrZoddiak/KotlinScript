@@ -17,5 +17,6 @@ tasks.jar {
 }
 
 tasks.shadowJar {
+    archiveClassifier.set("")
     configurations.add(project.configurations.shadow.get())
 }

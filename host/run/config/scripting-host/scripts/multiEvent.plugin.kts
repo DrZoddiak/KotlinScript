@@ -9,7 +9,6 @@ import me.zodd.onServerStarting
 */
 
 //Scripts can do multiple things
-//noinspection UnresolvedReference
 onServerStarted {
     Logger.info("Multi-Event-Server-Started")
 }

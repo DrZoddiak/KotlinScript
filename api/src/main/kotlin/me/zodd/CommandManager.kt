@@ -15,6 +15,7 @@ class CommandManager : DslArgument, DslContext {
 
     operator fun invoke(initializer: CommandManager.() -> Unit): List<DslCommand> {
         this.initializer()
+        RegistrationHelper.registerCommand(CommandBuilder.builtCommands)
         return CommandBuilder.builtCommands
     }
 

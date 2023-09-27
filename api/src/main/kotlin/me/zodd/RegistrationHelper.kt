@@ -3,6 +3,7 @@ package me.zodd
 import io.leangen.geantyref.TypeToken
 import org.spongepowered.api.Sponge
 import org.spongepowered.api.command.Command
+import org.spongepowered.api.command.Command.Parameterized
 import org.spongepowered.api.event.Event
 import org.spongepowered.api.event.EventListenerRegistration
 import org.spongepowered.api.event.Order
@@ -23,6 +24,13 @@ object RegistrationHelper {
 
     inline fun <reified T : Event> registerListener(noinline executor: T.() -> Unit) =
         registerListener(typeToken<T>(), executor)
+
+    fun registerCommand(command: List<DslCommand>) {
+        val regToken = typeToken<RegisterCommandEvent<Parameterized>>()
+        registerListener(regToken) {
+            it.register(API.container, command)
+        }
+    }
 
     //Allows easy creation of typeToken
     inline fun <reified T : Event> typeToken() = object : TypeToken<T>() {}
