@@ -38,15 +38,9 @@ tasks.jar.get().enabled = false
 tasks.shadowJar {
     archiveClassifier.set("")
     configurations.add(project.configurations.shadow.get())
-/*    listOf(
+    listOf(
         "org.spongepowered.configurate.kotlin", "org.jetbrains.org.objectweb.asm",
         "org.jetbrains.jps", "javaslang", "gnu.trove", "com.sun.jna", "messages", "misc"
-    ).forEach { relocate(it, "me.zodd.shaded.$it") }*/
-    //mergeServiceFiles()
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    ).forEach { relocate(it, "me.zodd.shaded.$it") }
+    mergeServiceFiles()
 }
