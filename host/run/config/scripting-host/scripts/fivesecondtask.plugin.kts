@@ -16,6 +16,6 @@ onServerStarted {
         .plugin(Container)
         .build()
 
-    Scheduler.submit(task)
+    SpongeScheduler.submit(task)
 }
 
