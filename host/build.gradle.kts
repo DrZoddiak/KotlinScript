@@ -6,7 +6,7 @@ plugins {
     id("org.spongepowered.gradle.plugin") version "2.2.0"
 }
 
-version = "0.1.0"
+version = "0.1.5"
 
 sponge {
     apiVersion("8.2.0-SNAPSHOT")
@@ -19,11 +19,6 @@ sponge {
         displayName("scripting-host")
         entrypoint("me.zodd.Host")
         description("A host plugin for running Kotlin Scripts")
-        dependency("kruntime") {
-            loadOrder(PluginDependency.LoadOrder.AFTER)
-            version("0.4.0")
-            optional(false)
-        }
     }
 }
 
@@ -34,7 +29,7 @@ dependencies {
     shadow(kotlin("reflect"))
     shadow(project(":script-definition"))
     shadow(kotlin("scripting-jvm-host"))
-    implementation(project(":api"))
+    shadow(project(":api"))
     api("net.kyori:adventure-api:4.14.0")
 }
 
@@ -43,11 +38,11 @@ tasks.jar.get().enabled = false
 tasks.shadowJar {
     archiveClassifier.set("")
     configurations.add(project.configurations.shadow.get())
-    listOf(
+/*    listOf(
         "org.spongepowered.configurate.kotlin", "org.jetbrains.org.objectweb.asm",
         "org.jetbrains.jps", "javaslang", "gnu.trove", "com.sun.jna", "messages", "misc"
-    ).forEach { relocate(it, "me.zodd.shaded.$it") }
-    mergeServiceFiles()
+    ).forEach { relocate(it, "me.zodd.shaded.$it") }*/
+    //mergeServiceFiles()
 }
 
 java {

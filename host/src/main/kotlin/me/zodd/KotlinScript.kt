@@ -6,7 +6,7 @@ import kotlin.script.experimental.api.SourceCode
 import kotlin.script.experimental.api.compilerOptions
 import kotlin.script.experimental.api.defaultImports
 import kotlin.script.experimental.host.toScriptSource
-import kotlin.script.experimental.jvm.dependenciesFromClassloader
+import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
@@ -44,17 +44,6 @@ internal data class KotlinScript(val script: String) {
         //Kyori
         "net.kyori.adventure.text.*",
         "me.zodd.*",
-        "me.zodd.Manager.Server",
-        "me.zodd.Manager.Plugin",
-        "me.zodd.Manager.PluginManager",
-        "me.zodd.Manager.CommandManager",
-        "me.zodd.Manager.EventManager",
-        "me.zodd.Manager.ServerServiceManager",
-        "me.zodd.Manager.GameServiceManager",
-        "me.zodd.Manager.Scheduler",
-        "me.zodd.Manager.AsyncScheduler",
-        "me.zodd.Manager.Logger",
-        "me.zodd.Manager.ScriptCommandManager",
     )
 
     private fun mergeImports(): List<String> {
@@ -78,9 +67,8 @@ internal data class KotlinScript(val script: String) {
         compilerOptions("-jvm-target", "17")
         defaultImports(*mergeImports().toTypedArray())
         jvm {
-            dependenciesFromClassloader(
+            dependenciesFromCurrentContext(
                 "host",
-                classLoader = classloader,
                 wholeClasspath = true
             )
         }
