@@ -1,34 +1,17 @@
-package me.zodd
+package me.zodd.dsl.command
 
 import me.zodd.annotations.ScriptDsl
 import net.kyori.adventure.text.Component
 import org.spongepowered.api.command.Command
 import org.spongepowered.api.command.CommandCause
 import org.spongepowered.api.command.CommandResult
-import org.spongepowered.api.command.parameter.CommandContext
 import org.spongepowered.api.command.parameter.Parameter
 import org.spongepowered.api.command.parameter.managed.Flag
+import org.spongepowered.api.command.parameter.CommandContext as SpongeContext
 import java.util.function.Predicate
 
 @ScriptDsl
-class CommandManager : DslArgument, DslContext {
-
-    operator fun invoke(initializer: CommandManager.() -> Unit): List<DslCommand> {
-        this.initializer()
-        RegistrationHelper.registerCommand(CommandBuilder.builtCommands)
-        return CommandBuilder.builtCommands
-    }
-
-    fun command(name: String, initializer: CommandBuilder.(name: String) -> Unit): DslCommand {
-        val builder = CommandBuilder()
-        builder.aliases += name
-        builder.initializer(name)
-        return builder.buildCommand()
-    }
-}
-
-@ScriptDsl
-class CommandBuilder : DslArgument, DslContext {
+class CommandBuilder : CommandArgument, CommandContext {
 
     companion object {
         internal val builtCommands = mutableListOf<DslCommand>()
@@ -40,7 +23,7 @@ class CommandBuilder : DslArgument, DslContext {
     var terminal: Boolean = false
     var executionRequirement: Predicate<CommandCause> = Predicate { true }
 
-    private var commandExecutor: CommandContext.() -> CommandResult =
+    private var commandExecutor: SpongeContext.() -> CommandResult =
         { error(Component.text("Command executor not registered")) }
 
     private var parameters = mutableListOf<Parameter>()
@@ -64,7 +47,7 @@ class CommandBuilder : DslArgument, DslContext {
         return command
     }
 
-    fun executes(exec: CommandContext.() -> CommandResult) {
+    fun executes(exec: SpongeContext.() -> CommandResult) {
         commandExecutor = exec
     }
 
@@ -88,45 +71,4 @@ class CommandBuilder : DslArgument, DslContext {
 
         return command
     }
-}
-
-
-sealed interface DslContext {
-    infix fun <T> CommandContext.requireOne(param: Parameter.Value<T>): T = this.requireOne(param)
-
-    fun CommandContext.success(): CommandResult = CommandResult.success()
-
-    infix fun CommandContext.error(errorMessage: Component): CommandResult = CommandResult.error(errorMessage)
-
-    infix fun CommandContext.hasFlag(flag: Flag) = this.hasFlag(flag)
-}
-
-sealed interface DslFlag {
-    infix fun String.buildFlag(permission: String): Flag {
-        return asFlag(permission).build()
-    }
-
-    infix fun String.asFlag(permission: String): Flag.Builder {
-        return Flag.builder().aliases(this.split(",")).setPermission(permission)
-    }
-}
-
-sealed interface DslParameter {
-    infix fun <T> String.withType(type: Parameter.Value.Builder<T>): Parameter.Value<T> {
-        return type.key(this).build()
-    }
-
-    infix fun <T> Parameter.Value.Builder<T>.keyedWith(key: String): Parameter.Value<T> {
-        return this.key(key).build()
-    }
-}
-
-interface DslArgument : DslParameter, DslFlag
-
-data class DslCommand(
-    val aliases: List<String>,
-    val command: Command.Parameterized,
-) {
-    val baseAlias = aliases[0]
-    val remainingAliases = aliases.filterNot { it.contentEquals(baseAlias) }.toTypedArray()
 }
