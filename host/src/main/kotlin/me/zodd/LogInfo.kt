@@ -41,7 +41,7 @@ internal data class LogInfo(
             ################$logTitle###############
             ${generateReport()}
             ###############################${"#".repeat(logTitle.length)}
-            """
+            """.trimIndent()
         )
     }
 }

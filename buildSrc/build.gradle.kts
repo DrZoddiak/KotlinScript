@@ -11,5 +11,5 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(15))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
