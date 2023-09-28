@@ -42,7 +42,7 @@ class CommandBuilder : CommandArgument, CommandContext {
         val subBuilder = CommandBuilder()
         subBuilder.aliases += name
         subBuilder.initializer(name)
-        val command = subBuilder.buildCommand()
+        val command = subBuilder.buildCommand(false)
         subcommands += command
         return command
     }
@@ -51,7 +51,7 @@ class CommandBuilder : CommandArgument, CommandContext {
         commandExecutor = exec
     }
 
-    internal fun buildCommand(): DslCommand {
+    internal fun buildCommand(addCommmand : Boolean = true): DslCommand {
         val spongeCommandBuilder = Command.builder()
 
         spongeCommandBuilder.apply {

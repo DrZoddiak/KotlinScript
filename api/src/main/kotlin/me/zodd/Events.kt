@@ -2,6 +2,7 @@ package me.zodd
 
 import me.zodd.RegistrationHelper.registerListener
 import org.spongepowered.api.Engine
+import org.spongepowered.api.command.Command.Parameterized
 import org.spongepowered.api.entity.EntityTypes
 import org.spongepowered.api.entity.living.player.Player
 import org.spongepowered.api.event.block.ChangeBlockEvent
@@ -11,6 +12,7 @@ import org.spongepowered.api.event.entity.DestructEntityEvent
 import org.spongepowered.api.event.entity.InteractEntityEvent
 import org.spongepowered.api.event.entity.MoveEntityEvent
 import org.spongepowered.api.event.entity.SpawnEntityEvent
+import org.spongepowered.api.event.lifecycle.RegisterCommandEvent
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent
 import org.spongepowered.api.event.lifecycle.StartingEngineEvent
 import org.spongepowered.api.event.lifecycle.StoppedGameEvent
@@ -72,6 +74,11 @@ fun onServerStarted(executor: StartedEngineEvent<Engine>.() -> Unit) = registerL
 fun onServerStopping(executor: StoppingEngineEvent<Engine>.() -> Unit) = registerListener(executor)
 
 fun onServerStopped(executor: StoppedGameEvent.() -> Unit) = registerListener(executor)
+
+// COMMANDS
+
+fun onRegisterCommandsParameterized(executor: RegisterCommandEvent<Parameterized>.() -> Unit) =
+    registerListener(executor)
 
 // OTHERS
 
