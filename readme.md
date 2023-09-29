@@ -4,6 +4,8 @@ KotlinScript is a Sponge plugin that acts as a scripting-host.
 
 This means that Kotlin style scripts can make use of the Spongepowered API.
 
+### [Wanting to get started? Read our wiki!](https://github.com/DrZoddiak/KotlinScript/wiki)
+
 ## What does a script look like?
 
 A script simply needs the file extension of `.plugin.kts`
