@@ -23,8 +23,7 @@ class CommandBuilder : CommandArgument, CommandContext {
     var terminal: Boolean = false
     var executionRequirement: Predicate<CommandCause> = Predicate { true }
 
-    private var commandExecutor: SpongeContext.() -> CommandResult =
-        { error(Component.text("Command executor not registered")) }
+    private var commandExecutor: (SpongeContext.() -> CommandResult)? = null
 
     private var parameters = mutableListOf<Parameter>()
     private var subcommands = mutableListOf<DslCommand>()
@@ -42,7 +41,7 @@ class CommandBuilder : CommandArgument, CommandContext {
         val subBuilder = CommandBuilder()
         subBuilder.aliases += name
         subBuilder.initializer(name)
-        val command = subBuilder.buildCommand(false)
+        val command = subBuilder.buildCommand()
         subcommands += command
         return command
     }
@@ -51,7 +50,7 @@ class CommandBuilder : CommandArgument, CommandContext {
         commandExecutor = exec
     }
 
-    internal fun buildCommand(addCommmand : Boolean = true): DslCommand {
+    internal fun buildCommand(): DslCommand {
         val spongeCommandBuilder = Command.builder()
 
         spongeCommandBuilder.apply {
@@ -62,7 +61,9 @@ class CommandBuilder : CommandArgument, CommandContext {
             addFlags(flags)
             executionRequirements(executionRequirement)
             terminal(terminal)
-            executor(commandExecutor)
+            if (commandExecutor != null) {
+                executor(commandExecutor)
+            }
             shortDescription(Component.text(description))
             permission(permission)
         }
