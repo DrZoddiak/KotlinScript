@@ -20,7 +20,6 @@ object ScriptConfiguration : ScriptCompilationConfiguration({
     compilerOptions("-jvm-target", "17")
     jvm {
         dependenciesFromClassloader(
-            classLoader = ClassLoader.getSystemClassLoader(),
             wholeClasspath = true
         )
     }
