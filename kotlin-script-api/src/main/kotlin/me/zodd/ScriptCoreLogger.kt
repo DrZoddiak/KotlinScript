@@ -16,17 +16,26 @@ import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 
+// todo: Find a better logging solution
+// This only affects loading, plugins use their platforms logger.
 object ScriptCoreLogger {
     val logger: java.util.logging.Logger = java.util.logging.Logger.getGlobal()
 }
 
+/**
+ * Represents a Container for Kotlin Scripts
+ */
 interface KtScriptPluginContainer<C, L> {
+    // The platforms container
     val container: C
-
+    // The logger the Platform will use
     val logger: L
 }
 
-abstract class Script(private val script: String, private val defaultPlatformImports: List<String>) {
+/**
+ * Represents a single Script File
+ */
+class Script(private val script: String, private val defaultPlatformImports: List<String>) {
     private val defaultImports: List<String> = listOf(
         //Kotlin Packages
         "kotlin.reflect.*",
@@ -51,6 +60,7 @@ abstract class Script(private val script: String, private val defaultPlatformImp
             dependenciesFromCurrentContext(
                 wholeClasspath = true
             )
+            // https://youtrack.jetbrains.com/issue/KT-57907
             compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
         }
     }
@@ -64,19 +74,24 @@ abstract class Script(private val script: String, private val defaultPlatformImp
     }
 }
 
-abstract class  ScriptLoader() {
-    private val scriptDir = "config/scripting-host/scripts/"
-    private val scriptFileDir = File(scriptDir)
+/**
+ * The loader for scripts
+ */
+object ScriptLoader {
+    private const val SCRIPT_DIR = "config/scripting-host/scripts/"
+    private val scriptFileDir = File(SCRIPT_DIR)
 
-    fun loadScripts() {
+    /**
+     * defaultPlatformImports should be a list of common imports for scripts to use
+     * This will allow scripts to omit these imports
+     */
+    fun loadScripts(defaultPlatformImports: List<String>) {
         scriptFileDir.mkdirs()
         scriptFileDir.listFiles()?.forEach { file ->
             ScriptCoreLogger.logger.info("Loading script : ${file.name}...")
-            createScript(file.readText()).eval().logResult(file.name)
+            Script(file.readText(),defaultPlatformImports).eval().logResult(file.name)
         }
     }
-
-    abstract fun createScript(str: String): Script
 
     private fun ResultWithDiagnostics<EvaluationResult>.logResult(name: String) {
         onFailure {
@@ -94,6 +109,7 @@ internal data class LogInfo(val scriptName: String, val diagnostic: List<ScriptD
 
     //Known messages deemed of little value to the End User
     private val listOfKnownMessages = listOf(
+        "Using JDK home inferred",
         "Using JVM IR backend",
         "Using new faster version of JAR FS: it should make your build faster, but the new implementation is experimental",
     )
