@@ -1,5 +1,7 @@
 package me.zodd
 
+import org.apache.logging.log4j.Logger
+import org.spongepowered.plugin.PluginContainer
 import java.io.File
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics

@@ -1,6 +1,6 @@
 plugins {
     id("host-plugin")
-    id("io.papermc.paperweight.userdev") version "1.5.11"
+    id("io.papermc.paperweight.userdev") version "1.5.15"
 }
 
 dependencies {
@@ -9,4 +9,10 @@ dependencies {
     paperweight.paperDevBundle("1.20.4-R0.1-SNAPSHOT")
 
     api("net.kyori:adventure-api:4.14.0")
+}
+
+tasks {
+    assemble {
+        dependsOn(reobfJar)
+    }
 }

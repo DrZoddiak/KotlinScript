@@ -1,5 +1,6 @@
 package me.zodd
 
+import org.bukkit.event.server.ServerLoadEvent
 import org.bukkit.plugin.java.JavaPlugin
 
 class Host : JavaPlugin() {
@@ -8,11 +9,13 @@ class Host : JavaPlugin() {
 
         logger.info("Loading Kotlin Scripting Host...")
 
-        object : ScriptLoader() {
-            val defaults = listOf("org.bukkit.*")
-            override fun createScript(str: String): Script = PaperScript(str,defaults)
-        }.loadScripts()
+        ScriptLoader.loadScripts(listOf("org.bukkit.*"))
+
+        onServerLoad {
+            logger.info("Hello world!")
+        }
 
         logger.info("Finished loading scripts...")
     }
 }
+fun onServerLoad(executor: (ServerLoadEvent) -> Unit) = RegistrationHelper.registerListener(executor)
