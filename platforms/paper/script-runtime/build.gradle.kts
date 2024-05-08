@@ -8,6 +8,16 @@ repositories {
 
 dependencies {
     shadow(project(":paper-api"))
-    shadow("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
+    shadow(libs.paper)
 }
 
+tasks {
+    jar {
+        enabled = false
+        finalizedBy("shadowJar")
+    }
+    shadowJar {
+        archiveClassifier.set("")
+        configurations.add(project.configurations.shadow.get())
+    }
+}

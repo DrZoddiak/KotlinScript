@@ -2,6 +2,7 @@ package me.zodd
 
 import com.google.inject.Inject
 import org.apache.logging.log4j.Logger
+import org.spongepowered.api.Sponge
 import org.spongepowered.api.config.DefaultConfig
 import org.spongepowered.api.event.Listener
 import org.spongepowered.api.event.lifecycle.ConstructPluginEvent
@@ -45,9 +46,10 @@ class Host @Inject internal constructor(
 
         config = loadConfig()
 
-        ScriptLoader.loadScripts(config.defaultImports)
+        ScriptLoader.loadScripts(this, config.defaultImports)
 
         logger.info("Finished loading scripts...")
+
     }
 
     @Listener

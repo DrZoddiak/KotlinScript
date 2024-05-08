@@ -47,3 +47,11 @@ fun include(name: String, block: ProjectDescriptor.() -> Unit) {
 }
 
 listOf("script-definition","kotlin-script-api").forEach(::includeProject)
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("gradle/libraries.versions.toml"))
+        }
+    }
+}

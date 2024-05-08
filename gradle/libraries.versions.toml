@@ -1,0 +1,8 @@
+[versions]
+minecraft = "1.20.6"
+paper-api = "1.20.6-R0.1-SNAPSHOT"
+sponge8-api = "8.1.0"
+
+[libraries]
+paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper-api" }
+sponge8 = { group = "org.spongepowered", name = "spongeapi", version.ref = "sponge8-api" }

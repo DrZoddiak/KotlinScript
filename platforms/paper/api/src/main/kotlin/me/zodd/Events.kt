@@ -1,12 +1,15 @@
 package me.zodd
 
-import org.bukkit.event.Event
-import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerLoginEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.server.ServerLoadEvent
 
 // === EVENTS ===
 
 // INTERACTION
+fun onServerLoad(executor: (ServerLoadEvent) -> Unit) = RegistrationHelper.registerListener(executor)
 
 
 //fun onBlockLeftClick(executor: (Listener,PlayerInteractEvent) -> Unit) = RegistrationHelper.registerListener(executor)
@@ -33,21 +36,21 @@ import org.bukkit.event.server.ServerLoadEvent
 //
 //fun onEntitySpawn(executor: SpawnEntityEvent.() -> Unit) = RegistrationHelper.registerListener(executor)
 //
-//fun onEntityDamage(executor: DamageEntityEvent.() -> Unit) = RegistrationHelper.registerListener(executor)
+fun onEntityDamage(executor: EntityDamageEvent.() -> Unit) = RegistrationHelper.registerListener(executor)
 //
 //fun onEntityRemove(executor: DestructEntityEvent.() -> Unit) = RegistrationHelper.registerListener(executor)
 //
 //fun onEntityDeath(executor: DestructEntityEvent.Death.() -> Unit) = RegistrationHelper.registerListener(executor)
 //
 //// PLAYERS
-//
-//fun onPlayerLogin(executor: ServerSideConnectionEvent.Login.() -> Unit) = RegistrationHelper.registerListener(executor)
-//
-//fun onPlayerJoin(executor: ServerSideConnectionEvent.Join.() -> Unit) = RegistrationHelper.registerListener(executor)
-//
-//fun onPlayerLeave(executor: ServerSideConnectionEvent.Disconnect.() -> Unit) =
-//    RegistrationHelper.registerListener(executor)
-//
+
+fun onPlayerLogin(executor: PlayerLoginEvent.() -> Unit) = RegistrationHelper.registerListener(executor)
+
+fun onPlayerJoin(executor: PlayerJoinEvent.() -> Unit) = RegistrationHelper.registerListener(executor)
+
+fun onPlayerLeave(executor: PlayerQuitEvent.() -> Unit) = RegistrationHelper.registerListener(executor)
+
+
 //fun onPlayerDamage(executor: DamageEntityEvent.() -> Unit) = onEntityDamage { if (entity() is Player) executor() }
 //
 //fun onPlayerDeath(executor: DestructEntityEvent.Death.() -> Unit) =

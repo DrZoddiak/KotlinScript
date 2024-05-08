@@ -1,12 +1,10 @@
-import org.jetbrains.kotlin.gradle.plugin.extraProperties
-
 plugins {
     id("host-plugin")
     id("org.spongepowered.gradle.plugin") version "2.2.0"
 }
 
 sponge {
-    apiVersion("8.2.0-SNAPSHOT")
+    apiVersion(libs.versions.sponge8.api.get())
     license("MIT")
     loader {
         name("java_plain")
@@ -21,6 +19,5 @@ sponge {
 
 dependencies {
     shadow(project(":sponge-api"))
-    api("net.kyori:adventure-api:4.14.0")
 }
 

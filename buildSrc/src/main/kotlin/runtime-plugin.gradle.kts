@@ -9,7 +9,6 @@ plugins {
 dependencies {
     shadow(project(":KotlinScript-script-definition"))
     shadow(kotlin("script-runtime"))
-    shadow("net.kyori:adventure-api:4.14.0")
 }
 
 tasks {
