@@ -4,9 +4,3 @@ main: me.zodd.Host
 description: Kotlin Scripting for Paper
 author: Zodd
 api-version: '1.20'
-#bootstrapper: io.papermc.testplugin.TestPluginBootstrap
-#loader: io.papermc.testplugin.TestPluginLoader
-# dependencies:
-#  server:
-#    MCKotlin-Paper:
-#      required: true

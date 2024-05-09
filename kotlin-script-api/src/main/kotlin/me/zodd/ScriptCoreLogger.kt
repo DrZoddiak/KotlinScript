@@ -4,29 +4,22 @@ import java.io.File
 import kotlin.reflect.KClass
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics
+import kotlin.script.experimental.api.ScriptAcceptedLocation
 import kotlin.script.experimental.api.ScriptCompilationConfiguration
 import kotlin.script.experimental.api.ScriptDiagnostic
 import kotlin.script.experimental.api.ScriptEvaluationConfiguration
 import kotlin.script.experimental.api.SourceCode
+import kotlin.script.experimental.api.acceptedLocations
 import kotlin.script.experimental.api.asSuccess
-import kotlin.script.experimental.api.compilationConfiguration
 import kotlin.script.experimental.api.compilerOptions
 import kotlin.script.experimental.api.defaultImports
-import kotlin.script.experimental.api.hostConfiguration
+import kotlin.script.experimental.api.ide
 import kotlin.script.experimental.api.onFailure
 import kotlin.script.experimental.api.onSuccess
-import kotlin.script.experimental.api.providedProperties
-import kotlin.script.experimental.api.refineConfigurationBeforeEvaluate
-import kotlin.script.experimental.api.scriptExecutionWrapper
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvm.baseClassLoader
-import kotlin.script.experimental.jvm.dependenciesFromClassContext
-import kotlin.script.experimental.jvm.dependenciesFromClassloader
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
-import kotlin.script.experimental.jvm.loadDependencies
-import kotlin.script.experimental.jvm.util.classpathFromClass
-import kotlin.script.experimental.jvm.util.classpathFromClassloader
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 import kotlin.script.experimental.jvmhost.createJvmEvaluationConfigurationFromTemplate
@@ -53,50 +46,7 @@ interface KtScriptPluginContainer<C, L> {
  */
 class Script(
     private val script: String,
-    private val defaultPlatformImports: List<String>,
-    private val scriptContainer: KtScriptPluginContainer<*, *>
 ) {
-    private val defaultImports: List<String> = listOf(
-        //Kotlin Packages
-        "kotlin.reflect.*",
-        "kotlin.reflect.jvm.*",
-        //Kyori
-        "net.kyori.adventure.text.*",
-        //Plugin
-        "me.zodd.*",
-    )
-
-    private fun mergeImports(): List<String> {
-        val imports = mutableListOf<String>()
-        imports.addAll(defaultImports)
-        imports.addAll(defaultPlatformImports)
-        return imports
-    }
-
-    private val configuration = createJvmCompilationConfigurationFromTemplate<PluginScript> {
-        compilerOptions("-jvm-target=21")
-        defaultImports(*mergeImports().toTypedArray())
-        jvm {
-
-            dependenciesFromCurrentContext(wholeClasspath = true)
-
-            // https://youtrack.jetbrains.com/issue/KT-57907
-            compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
-        }
-    }
-
-    private val evalConfig = createJvmEvaluationConfigurationFromTemplate<PluginScript> {
-
-//        scriptExecutionWrapper {
-//            val api = scriptContainer
-//        }
-
-    }
-
-    fun eval(): ResultWithDiagnostics<EvaluationResult> {
-        return BasicJvmScriptingHost().eval(compile(), configuration, evalConfig)
-    }
-
     fun eval(
         configuration: ScriptCompilationConfiguration,
         evalConfig: ScriptEvaluationConfiguration
@@ -117,36 +67,47 @@ object ScriptLoader {
     private val scriptFileDir = File(SCRIPT_DIR)
 
     /**
-     * defaultPlatformImports should be a list of common imports for scripts to use
-     * This will allow scripts to omit these imports
+     * @param defaultImports A list of default imports to provide to scripts
+     * @param classloaderClass The class instance to share the classloader to scripts
      */
-    fun loadScripts(container: KtScriptPluginContainer<*, *>, defaultPlatformImports: List<String>) {
-        scriptFileDir.mkdirs()
-        scriptFileDir.listFiles()?.forEach { file ->
-            ScriptCoreLogger.logger.info("Loading script : ${file.name}...")
-            Script(file.readText(), defaultPlatformImports, container).eval().logResult(file.name)
-        }
-    }
-
     fun loadScripts(
-        container: KtScriptPluginContainer<*, *>,
-        defaultPlatformImports: List<String>,
-        configuration: ScriptCompilationConfiguration,
-        evalConfig: ScriptEvaluationConfiguration,
+        defaultImports: List<String>,
+        classloaderClass: KClass<*>,
     ) {
         scriptFileDir.mkdirs()
         scriptFileDir.listFiles()?.forEach { file ->
             ScriptCoreLogger.logger.info("Loading script : ${file.name}...")
-            Script(file.readText(), defaultPlatformImports, container).eval(configuration, evalConfig)
+            Script(file.readText()).eval(
+                configurationConfig(defaultImports),
+                evaluationConfig(classloaderClass)
+            )
                 .logResult(file.name)
         }
     }
+
+    private fun evaluationConfig(classloaderClass: KClass<*>) =
+        createJvmEvaluationConfigurationFromTemplate<PluginScript> {
+            jvm {
+                baseClassLoader.put(classloaderClass.java.classLoader)
+            }
+        }
+
+    private fun configurationConfig(imports: List<String>) =
+        createJvmCompilationConfigurationFromTemplate<PluginScript> {
+            ide.acceptedLocations(ScriptAcceptedLocation.Everywhere)
+            compilerOptions("-jvm-target=21")
+            defaultImports(imports)
+            jvm {
+                dependenciesFromCurrentContext(wholeClasspath = true)
+                // https://youtrack.jetbrains.com/issue/KT-57907
+                compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
+            }
+        }
 
     private fun ResultWithDiagnostics<EvaluationResult>.logResult(name: String) {
         onFailure {
             LogInfo(name, it.reports).printLog()
         }.onSuccess {
-            ScriptCoreLogger.logger.info("Script: $name successfully loaded! - {${it}}")
             asSuccess()
         }
     }

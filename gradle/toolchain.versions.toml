@@ -1,5 +1,10 @@
 [versions]
-
-[plugins]
+project_version = "0.1.8"
+shadow = "8.1.1"
+kotlin = "1.9.20"
+configurate = "4.1.2"
 
 [libraries]
+configurate = { group = "org.spongepowered", name = "configurate-extra-koltin", version.ref = "configurate" }
+shadow = { group = "com.github.johnrengelman", name = "shadow", version.ref = "shadow" }
+kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }

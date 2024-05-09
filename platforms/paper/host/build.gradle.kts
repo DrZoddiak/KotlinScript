@@ -6,8 +6,6 @@ plugins {
 
 dependencies {
     shadow(project(":paper-api"))
-
-
     paperweight.paperDevBundle(libs.versions.paper.api)
 }
 
@@ -15,12 +13,7 @@ tasks {
     assemble {
         dependsOn(reobfJar)
     }
-
     runServer {
         minecraftVersion(libs.versions.minecraft.get())
     }
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }

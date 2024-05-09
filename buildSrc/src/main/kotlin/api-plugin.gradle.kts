@@ -4,7 +4,6 @@ plugins {
     id("common")
 }
 
-
 tasks.jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
