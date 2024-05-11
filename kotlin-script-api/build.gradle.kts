@@ -9,6 +9,4 @@ repositories {
 dependencies {
     compileOnly(kotlin("scripting-jvm-host"))
     compileOnly(project(":KotlinScript-script-definition"))
-    compileOnly(libs.paper)
-    compileOnly(libs.sponge8)
 }
