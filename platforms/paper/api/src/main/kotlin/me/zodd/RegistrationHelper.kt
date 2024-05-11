@@ -28,7 +28,14 @@ object RegistrationHelper {
             eventClass,
             listener,
             priority,
-            { _, event -> executor.invoke(event as E) },
+            { _, event ->
+                // Ensures correct event is invoked
+                // in the case of events such as
+                // EntityDamageEvent & EntityDamageByEntityEvent
+                if (event is E) {
+                    executor.invoke(event)
+                }
+            },
             plugin
         )
     }
