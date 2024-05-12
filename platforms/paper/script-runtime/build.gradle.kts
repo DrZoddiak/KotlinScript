@@ -9,6 +9,7 @@ repositories {
 dependencies {
     shadow(project(":paper-api"))
     shadow(libs.paper)
+    shadow(libs.adventure.kt)
 }
 
 tasks {

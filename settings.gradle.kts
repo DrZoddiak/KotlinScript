@@ -21,7 +21,7 @@ val modules = listOf(
 val folderPath = "platforms/"
 
 listOf(
-    "sponge",
+    //"sponge",
     "paper"
 ).forEach { platform ->
     modules.forEach {

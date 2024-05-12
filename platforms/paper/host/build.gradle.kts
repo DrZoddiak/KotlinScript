@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     shadow(project(":paper-api"))
+    shadow(libs.adventure.kt)
     paperweight.paperDevBundle(libs.versions.paper.api)
 }
 

@@ -1,6 +1,8 @@
 import me.zodd.BukkitTaskScheduler
+import me.zodd.createExplosionAt
 import me.zodd.onEntityDamageByEntity
 import me.zodd.scheduleTask
+import me.zodd.soundOf
 import net.kyori.adventure.sound.Sound
 import org.bukkit.entity.EntityType
 
@@ -11,16 +13,16 @@ onEntityDamageByEntity {
 
     val bee = entity
 
-    val sound = Sound.sound(
-        org.bukkit.Sound.ENTITY_CREEPER_PRIMED.key(),
-        Sound.Source.HOSTILE,
-        6f,
-        1f,
-    )
+    val sound = soundOf {
+        type(org.bukkit.Sound.ENTITY_CREEPER_PRIMED)
+        source(Sound.Source.HOSTILE)
+        volume(6f)
+        pitch(1f)
+    }
 
     bee.playSound(sound)
 
     BukkitTaskScheduler.scheduleTask(60) {
-        bee.world.createExplosion(bee, 3f)
+        bee.createExplosionAt(3f)
     }
 }
