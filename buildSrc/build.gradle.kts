@@ -9,7 +9,6 @@ repositories {
 dependencies {
     implementation(tooling.kotlin)
     implementation(tooling.shadow)
-    implementation(files(tooling.javaClass.superclass.protectionDomain.codeSource.location))
 
 }
 
