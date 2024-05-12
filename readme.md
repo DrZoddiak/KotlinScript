@@ -13,7 +13,7 @@ You can find many example scripts below
 
 [Sponge](https://github.com/DrZoddiak/KotlinScript/tree/master/host/run/config/scripting-host/scripts)
 
-[Paper]()
+[Paper](https://github.com/DrZoddiak/KotlinScript/tree/paper-support/example_scripts/paper)
 
 A simple example
 ```kotlin 
