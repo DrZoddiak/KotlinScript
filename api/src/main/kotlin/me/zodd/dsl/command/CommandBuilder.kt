@@ -19,9 +19,9 @@ class CommandBuilder : CommandArgument, CommandContext {
 
     var aliases: MutableList<String> = mutableListOf()
     var description: String = ""
-    var permission: String = ""
-    var terminal: Boolean = false
-    var executionRequirement: Predicate<CommandCause> = Predicate { true }
+    var permission: String? = null
+    var terminal: Boolean? = null
+    var executionRequirement: Predicate<CommandCause>? = null
 
     private var commandExecutor: (SpongeContext.() -> CommandResult)? = null
 
@@ -59,13 +59,11 @@ class CommandBuilder : CommandArgument, CommandContext {
             }
             addParameters(parameters)
             addFlags(flags)
-            executionRequirements(executionRequirement)
-            terminal(terminal)
-            if (commandExecutor != null) {
-                executor(commandExecutor)
-            }
             shortDescription(Component.text(description))
-            permission(permission)
+            executionRequirement?.let { executionRequirements(it) }
+            terminal?.let { terminal(it) }
+            commandExecutor?.let { executor(it) }
+            permission?.let { permission(it) }
         }
         val command = DslCommand(aliases, spongeCommandBuilder.build())
         builtCommands.add(command)

@@ -46,7 +46,7 @@ class Host @Inject internal constructor(
 
         config = loadConfig()
 
-        KotlinScriptLoader.loadScripts()
+        KotlinScriptLoader.loadScripts(this::class)
         logger.info("Finished loading scripts...")
     }
 

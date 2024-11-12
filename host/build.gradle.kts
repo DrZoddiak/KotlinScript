@@ -1,15 +1,13 @@
-import org.spongepowered.plugin.metadata.model.PluginDependency
-
 plugins {
     id("common")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.gradleup.shadow") version "8.3.5"
     id("org.spongepowered.gradle.plugin") version "2.2.0"
 }
 
 version = "0.1.6"
 
 sponge {
-    apiVersion("8.2.0-SNAPSHOT")
+    apiVersion("12.0.0-SNAPSHOT")
     license("MIT")
     loader {
         name("java_plain")
@@ -26,21 +24,21 @@ dependencies {
     implementation("org.spongepowered:configurate-extra-kotlin:4.1.2") {
         isTransitive = false
     }
-    shadow(kotlin("reflect"))
-    shadow(project(":script-definition"))
-    shadow(kotlin("scripting-jvm-host"))
-    shadow(project(":api"))
-    api("net.kyori:adventure-api:4.14.0")
+    implementation(kotlin("reflect"))
+    implementation(kotlin("scripting-jvm-host"))
+    implementation(project(":script-definition"))
+    implementation(project(":api"))
 }
 
 tasks.jar.get().enabled = false
 
 tasks.shadowJar {
     archiveClassifier.set("")
-    configurations.add(project.configurations.shadow.get())
+
     listOf(
-        "org.spongepowered.configurate.kotlin", "org.jetbrains.org.objectweb.asm",
-        "org.jetbrains.jps", "javaslang", "gnu.trove", "com.sun.jna", "messages", "misc"
+        "org.spongepowered.configurate.kotlin", "javaslang", "gnu.trove", "kotlinx",
+        "org.intellij", "org.jetbrains", "messages", "misc"
     ).forEach { relocate(it, "me.zodd.shaded.$it") }
+
     mergeServiceFiles()
 }

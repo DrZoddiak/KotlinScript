@@ -3,7 +3,6 @@ package me.zodd
 import io.leangen.geantyref.TypeToken
 import me.zodd.dsl.command.DslCommand
 import org.spongepowered.api.Sponge
-import org.spongepowered.api.command.Command
 import org.spongepowered.api.command.Command.Parameterized
 import org.spongepowered.api.event.Event
 import org.spongepowered.api.event.EventListenerRegistration
@@ -29,11 +28,11 @@ object RegistrationHelper {
     //Allows easy creation of typeToken
     inline fun <reified T : Event> typeToken() = object : TypeToken<T>() {}
 
-    fun RegisterCommandEvent<Command.Parameterized>.register(container: PluginContainer, dslCommand: DslCommand) {
+    fun RegisterCommandEvent<Parameterized>.register(container: PluginContainer, dslCommand: DslCommand) {
         register(container, dslCommand.command, dslCommand.baseAlias, *dslCommand.remainingAliases)
     }
 
-    fun RegisterCommandEvent<Command.Parameterized>.register(
+    fun RegisterCommandEvent<Parameterized>.register(
         container: PluginContainer,
         dslCommands: List<DslCommand>,
     ) {

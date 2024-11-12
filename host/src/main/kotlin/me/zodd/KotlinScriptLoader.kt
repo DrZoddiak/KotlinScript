@@ -1,6 +1,7 @@
 package me.zodd
 
 import java.io.File
+import kotlin.reflect.KClass
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.api.asSuccess
@@ -11,11 +12,11 @@ internal object KotlinScriptLoader {
     private const val DIR = "config/scripting-host/scripts/"
     private val scriptFileDir = File(DIR)
 
-    fun loadScripts() {
+    fun loadScripts(classloaderClass: KClass<*>) {
         scriptFileDir.mkdirs()
         scriptFileDir.listFiles()?.forEach { file ->
             Logger.info("Loading script : ${file.name}...")
-            KotlinScript(file.readText()).eval().logResult(file.name)
+            KotlinScript(file.readText()).eval(classloaderClass).logResult(file.name)
         }
     }
 

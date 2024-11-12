@@ -6,7 +6,7 @@ import kotlin.script.experimental.api.ScriptCompilationConfiguration
 import kotlin.script.experimental.api.acceptedLocations
 import kotlin.script.experimental.api.compilerOptions
 import kotlin.script.experimental.api.ide
-import kotlin.script.experimental.jvm.dependenciesFromClassloader
+import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
 
 @KotlinScript(
@@ -17,12 +17,12 @@ abstract class PluginScript
 
 object ScriptConfiguration : ScriptCompilationConfiguration({
     ide.acceptedLocations(ScriptAcceptedLocation.Everywhere)
-    compilerOptions("-jvm-target", "17")
+    compilerOptions.append("-jvm-target=21")
     jvm {
-        dependenciesFromClassloader(
-            classLoader = ClassLoader.getSystemClassLoader(),
-            wholeClasspath = true
-        )
+        dependenciesFromCurrentContext(wholeClasspath = true)
+        compilerOptions.append("-jvm-target=21")
     }
-})
+}) {
+    private fun readResolve(): Any = ScriptConfiguration
+}
 
