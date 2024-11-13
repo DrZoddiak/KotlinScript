@@ -1,7 +1,7 @@
 plugins {
-    id("common")
+    common
 }
 
 dependencies {
-    api(kotlin("scripting-jvm"))
+    api(libs.kotlin.scripting.jvm)
 }

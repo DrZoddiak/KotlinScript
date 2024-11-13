@@ -1,14 +1,13 @@
 plugins {
-    id("common")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    common
+    alias(libs.plugins.shadow)
 }
 
 dependencies {
     shadow(project(":script-definition"))
-    shadow(kotlin("script-runtime"))
     shadow(project(":api"))
-    shadow("org.spongepowered:spongeapi:12.0.0")
-    shadow("net.kyori:adventure-api:4.14.0")
+    shadow(libs.kotlin.scripting.runtime)
+    shadow(libs.bundles.spongeAventure)
 }
 
 tasks.jar {

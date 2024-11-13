@@ -1,0 +1,24 @@
+[versions]
+sponge-api = "12.0.0"
+sponge-gradle = "2.2.0"
+sponge-configurate-kt = "4.1.2"
+adventure-api = "4.14.0"
+shadow = "8.3.5"
+kotlin = "2.0.20"
+
+[libraries]
+sponge-api = { group = "org.spongepowered", name = "spongeapi", version.ref = "sponge-api" }
+sponge-configurate-kt = { group = "org.spongepowered", name = "configurate-extra-kotlin", version.ref = "sponge-configurate-kt" }
+adventure-api = { group = "net.kyori", name = "adventure-api", version.ref = "adventure-api" }
+kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-scripting-jvm = { group = "org.jetbrains.kotlin", name = "kotlin-scripting-jvm", version.ref = "kotlin" }
+kotlin-scripting-jvm-host = { group = "org.jetbrains.kotlin", name = "kotlin-scripting-jvm-host", version.ref = "kotlin" }
+kotlin-scripting-runtime = { group = "org.jetbrains.kotlin", name = "kotlin-script-runtime", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+sponge = { id = "org.spongepowered.gradle.plugin", version.ref = "sponge-gradle" }
+
+[bundles]
+spongeAventure = ["sponge-api", "adventure-api"]

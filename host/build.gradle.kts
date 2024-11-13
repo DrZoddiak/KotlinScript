@@ -1,13 +1,13 @@
 plugins {
-    id("common")
-    id("com.gradleup.shadow") version "8.3.5"
-    id("org.spongepowered.gradle.plugin") version "2.2.0"
+    common
+    alias(libs.plugins.shadow)
+    alias(libs.plugins.sponge)
 }
 
 version = "0.1.6"
 
 sponge {
-    apiVersion("12.0.0-SNAPSHOT")
+    apiVersion("12.0.0")
     license("MIT")
     loader {
         name("java_plain")
@@ -21,11 +21,11 @@ sponge {
 }
 
 dependencies {
-    implementation("org.spongepowered:configurate-extra-kotlin:4.1.2") {
+    implementation(libs.sponge.configurate.kt) {
         isTransitive = false
     }
-    implementation(kotlin("reflect"))
-    implementation(kotlin("scripting-jvm-host"))
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.scripting.jvm.host)
     implementation(project(":script-definition"))
     implementation(project(":api"))
 }
